@@ -1,0 +1,101 @@
+import java.util.LinkedList;
+import java.util.ArrayList;
+
+public class TestTwoFourTree {
+    public static void main(String[] args) {
+
+        TwoFourTree<Integer> sampleTree = new TwoFourTree<>();
+        LinkedList<Integer> sampleLinkedList = new LinkedList<>();
+
+        int repeatTime = 10;
+        int unit = 5000;// unit for each change
+        int upLimit = 100000;
+        int[] arr;
+        int currentLength;
+        ArrayList<Double> insertionTimeRecord2_4Tree = new ArrayList<>();
+        ArrayList<Double> insertionTimeRecordLinkedList = new ArrayList<>();
+        double inerstionAverageTime2_4Tree = 0;
+        double insertionAverageTimeLinkedList = 0;
+
+        ArrayList<Double> searchTimeRecord2_4Tree = new ArrayList<>();
+        ArrayList<Double> searchTimeRecordLinkedList = new ArrayList<>();
+        double searchAverageTime2_4Tree = 0;
+        double searchAverageTimeLinkedList = 0;
+
+        for (currentLength = unit; currentLength <= upLimit; currentLength += unit) {
+            // change the length of the array to get different running time
+            for (int j = 0; j < repeatTime; j++) {
+                // repeat and get average value to reduce chance
+                arr = new int[currentLength];
+                for (int i = 0; i < currentLength; i++) {
+                    arr[i] = (int)(Math.random()*100000);
+                }
+                insertTime(sampleTree, sampleLinkedList, arr, insertionTimeRecord2_4Tree, insertionTimeRecordLinkedList);
+                searchTime(sampleTree, sampleLinkedList, arr[currentLength/2], searchTimeRecord2_4Tree, searchTimeRecordLinkedList);
+                sampleTree.clear();
+                sampleLinkedList.clear();
+            }
+            for (int i = 0; i < repeatTime; i++) {
+                inerstionAverageTime2_4Tree += insertionTimeRecord2_4Tree.get(i);
+                insertionAverageTimeLinkedList += insertionTimeRecordLinkedList.get(i);
+                searchAverageTime2_4Tree += searchTimeRecord2_4Tree.get(i);
+                searchAverageTimeLinkedList += searchTimeRecordLinkedList.get(i);
+                // get sum
+            }
+            insertionTimeRecord2_4Tree.clear();
+            insertionTimeRecordLinkedList.clear();
+            searchTimeRecord2_4Tree.clear();;
+            searchTimeRecordLinkedList.clear();
+
+            inerstionAverageTime2_4Tree = inerstionAverageTime2_4Tree / repeatTime;// get average time 
+            insertionAverageTimeLinkedList = insertionAverageTimeLinkedList / repeatTime;
+            searchAverageTime2_4Tree = searchAverageTime2_4Tree / repeatTime;
+            searchAverageTimeLinkedList = searchAverageTimeLinkedList / repeatTime;
+            
+            System.out.printf("%-20s\t%-20s\t%-20s\t%-20s\t%-20s\n%-20d\t%-20f\t%-20f\t%-20f\t%-20f\n", "NumofData", "InsertionTime2_4Tree", "InsertionTimeLinkedList", "searchTime2_4Tree", "searchTimeLinkedList",
+                    currentLength, inerstionAverageTime2_4Tree, insertionAverageTimeLinkedList, searchAverageTime2_4Tree, searchAverageTimeLinkedList);
+        }
+
+    }
+
+    public static void insertTime(TwoFourTree<Integer> sampleTree, LinkedList<Integer> sampleLinkedList, int[] arr,
+            ArrayList<Double> insertionTimeRecord2_4Tree, ArrayList<Double> insertionTimeRecordLinkedList) {
+        double beginTime;
+        double endTime;
+        double timeUsed;
+
+        beginTime = System.currentTimeMillis();
+        for (int e : arr) {
+            sampleTree.insert(e);
+        }
+        endTime = System.currentTimeMillis();
+        timeUsed = endTime-beginTime;
+        insertionTimeRecord2_4Tree.add(timeUsed);
+
+        beginTime = System.currentTimeMillis();
+        for (int e : arr) {
+            sampleLinkedList.add(e);
+        }
+        endTime = System.currentTimeMillis();
+        timeUsed = endTime-beginTime;
+        insertionTimeRecordLinkedList.add(timeUsed);
+    }
+    public static void searchTime(TwoFourTree<Integer> sampleTree, LinkedList<Integer> sampleLinkedList, int goal,
+            ArrayList<Double> searchTimeRecord2_4Tree, ArrayList<Double> searchTimeRecordLinkedList) {
+        double beginTime;
+        double endTime;
+        double timeUsed;
+
+        beginTime = System.currentTimeMillis();
+        sampleTree.contains(goal);
+        endTime = System.currentTimeMillis();
+        timeUsed = endTime-beginTime;
+        searchTimeRecord2_4Tree.add(timeUsed);
+
+        beginTime = System.currentTimeMillis();
+        sampleLinkedList.contains(goal);
+        endTime = System.currentTimeMillis();
+        timeUsed = endTime-beginTime;
+        searchTimeRecordLinkedList.add(timeUsed);
+    }
+}
