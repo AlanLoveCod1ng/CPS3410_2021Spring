@@ -3,7 +3,12 @@ import java.util.*;
 class Solution {
 
     public static void main(String[] args) {
-        
+        int[] arr1 = { 0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15 };
+        int[] arr2 = { 10, 22, 9, 33, 21, 50, 41, 60, 80 };
+        System.out.println(lengthOfLIS(arr1).toString());
+        System.out.println(lengthOfLIS(arr2).toString());
+        System.out.println(Arrays.toString(lengthOfLIS1(arr1)));
+        System.out.println(Arrays.toString(lengthOfLIS1(arr2)));
     }
     //dynamic programming
     // I use LinkedList here because I consider that the list need to add element, however
